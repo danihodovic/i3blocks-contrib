@@ -44,12 +44,17 @@ def calculate_productivity(start_date, end_date):
     res.raise_for_status()
     data = rows_to_json(res.json())
     productive_seconds = 0
+    total_seconds = 0
     for entry in data:
         seconds = entry["Time Spent (seconds)"]
+        total_seconds += seconds
         if entry["Productivity"] > 0:
             productive_seconds += seconds
     delta = timedelta(seconds=productive_seconds)
-    return delta
+    return {
+        "productive_time": delta,
+        "productivity_pulse": int(round(productive_seconds / total_seconds * 100))
+    }
 
 
 def calculate_time_spent_reading(start_date, end_date):
@@ -72,14 +77,18 @@ def calculate_time_spent_reading(start_date, end_date):
 today = datetime.date.today()
 monday = today + datetime.timedelta(days=-today.weekday())
 
-productive_time_today = calculate_productivity(
+productivity_metrics_today = calculate_productivity(
     start_date=today,
     end_date=today
 )
-productive_time_week = calculate_productivity(
+productivity_metrics_week = calculate_productivity(
     start_date=monday,
     end_date=today
 )
+productive_time_today = productivity_metrics_today["productive_time"]
+productive_time_week = productivity_metrics_week["productive_time"]
+
+
 reading_time_today = calculate_time_spent_reading(
     start_date=today,
     end_date=today
@@ -95,6 +104,7 @@ fulltext = (
     f"{reading_time_today} ({reading_time_week})"
     "</span></span>   "
     "<span color='yellow'><span font='FontAwesome'>\uf060"
+    f"{productivity_metrics_today['productivity_pulse']}% - "
     f"{productive_time_today} ({productive_time_week})"
     "</span></span>"
 )
