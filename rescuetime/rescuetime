@@ -78,7 +78,11 @@ def calculate_time_spent_reading(start_date, end_date):
 def format_hh_mm(timedelta_):
     h, rest = divmod(timedelta_.total_seconds(), 3600)
     min, _ = divmod(rest, 60)
-    return f"{int(h)}:{int(min)}"
+    # format 4 to 04, so that 4:4 becomes 04:04
+    f = lambda n: str(int(n)).zfill(2)
+    h = f(h)
+    min = f(min)
+    return f"{h}:{min}"
 
 
 today = datetime.date.today()
