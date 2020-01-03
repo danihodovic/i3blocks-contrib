@@ -74,6 +74,13 @@ def calculate_time_spent_reading(start_date, end_date):
     total_seconds = sum(r["Time Spent (seconds)"] for r in reading_rows)
     return timedelta(seconds=total_seconds)
 
+
+def format_hh_mm(timedelta_):
+    h, rest = divmod(timedelta_.total_seconds(), 3600)
+    min, _ = divmod(rest, 60)
+    return f"{int(h)}:{int(min)}"
+
+
 today = datetime.date.today()
 monday = today + datetime.timedelta(days=-today.weekday())
 
@@ -86,17 +93,20 @@ productivity_metrics_week = calculate_productivity(
     end_date=today
 )
 productive_time_today = productivity_metrics_today["productive_time"]
+productive_time_today = format_hh_mm(productive_time_today)
 productive_time_week = productivity_metrics_week["productive_time"]
-
+productive_time_week = format_hh_mm(productive_time_week)
 
 reading_time_today = calculate_time_spent_reading(
     start_date=today,
     end_date=today
 )
+reading_time_today = format_hh_mm(reading_time_today)
 reading_time_week = calculate_time_spent_reading(
     start_date=monday,
     end_date=today
 )
+reading_time_week = format_hh_mm(reading_time_week)
 
 
 fulltext = (
