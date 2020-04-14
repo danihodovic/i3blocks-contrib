@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import subprocess
+
+cmd = 'timewarrior_status'
+cmd = '''
+local task="$(task +ACTIVE -DELETED export rc.json.array=off 2> /dev/null)"
+echo $task | jq -r '"\(.description)(\(.id))"'
+'''
+result = subprocess.run(
+    cmd,
+    shell=True,
+    check=True,
+    stdout=subprocess.PIPE,
+    executable="/bin/zsh"
+)
+output = result.stdout.decode("utf-8").split("\n")[0]
+
+fulltext = (
+    "<span background='black' color='#00ff00'>"
+    f"<b>{output}</b>"
+    "</span>"
+)
+print(fulltext)
