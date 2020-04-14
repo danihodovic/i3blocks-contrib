@@ -2,12 +2,13 @@
 # Inspiration taken from: https://gist.github.com/kenkeiter/f9e353f93dc0d7d8e935
 
 import datetime
-import requests
 import json
 import os
 import sys
-from pathlib import Path
 from datetime import date, timedelta
+from pathlib import Path
+
+import requests
 
 url = "https://www.rescuetime.com/anapi/data"
 
@@ -114,12 +115,9 @@ reading_time_week = format_hh_mm(reading_time_week)
 
 
 fulltext = (
-    "<span color='#00cc00'><span font='FontAwesome'>\uf080"
-    f"{reading_time_today} ({reading_time_week})"
-    "</span></span>   "
-    "<span color='yellow'><span font='FontAwesome'>\uf060"
+    "<span color='#87fbff'><span font='FontAwesome'>\uf060"
     f"{productivity_metrics_today['productivity_pulse']}% - "
-    f"{productive_time_today} ({productive_time_week})"
+    f"({productivity_metrics_week['productivity_pulse']}%)"
     "</span></span>"
 )
 print(fulltext)
