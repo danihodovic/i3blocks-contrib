@@ -102,20 +102,32 @@ productive_time_today = format_hh_mm(productive_time_today)
 productive_time_week = productivity_metrics_week["productive_time"]
 productive_time_week = format_hh_mm(productive_time_week)
 
-reading_time_today = calculate_time_spent_reading(
-    start_date=today,
-    end_date=today
-)
-reading_time_today = format_hh_mm(reading_time_today)
-reading_time_week = calculate_time_spent_reading(
-    start_date=monday,
-    end_date=today
-)
-reading_time_week = format_hh_mm(reading_time_week)
+# reading_time_today = calculate_time_spent_reading(
+#     start_date=today,
+#     end_date=today
+# )
+# reading_time_today = format_hh_mm(reading_time_today)
+# reading_time_week = calculate_time_spent_reading(
+#     start_date=monday,
+#     end_date=today
+# )
+# reading_time_week = format_hh_mm(reading_time_week)
+
+productivity_colors = [
+    (70, '#42e700'),
+    (60, '#a9ffc4'),
+    (50, '#ffa720'),
+    (30, '#cc0000'),
+    (0, '#FF0000'),
+]
+
+productivity_color = next((
+    c[1] for c in productivity_colors if productivity_metrics_today['productivity_pulse'] > c[0]
+))
 
 
 fulltext = (
-    "<span color='#87fbff'><span font='FontAwesome'>\uf060"
+    f"<span color='{productivity_color}'><span font='FontAwesome'>\uf060"
     f"{productivity_metrics_today['productivity_pulse']}% - "
     f"({productivity_metrics_week['productivity_pulse']}%)"
     "</span></span>"
