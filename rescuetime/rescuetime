@@ -127,7 +127,7 @@ productivity_color = next((
 
 
 fulltext = (
-    f"<span color='{productivity_color}'><span font='FontAwesome'>\uf060"
+    f"<span color='{productivity_color}'><span font='FontAwesome'>\uf085 "
     f"{productivity_metrics_today['productivity_pulse']}% - "
     f"({productivity_metrics_week['productivity_pulse']}%)"
     "</span></span>"
